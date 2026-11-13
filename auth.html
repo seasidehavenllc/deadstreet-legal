@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dead Street sign in</title>
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0b0812;color:#f6ecd6;font-family:'Trebuchet MS',Arial,sans-serif;text-align:center}
+h1{font:italic 700 2em Impact,'Arial Black',sans-serif;color:#f2bd3a;margin:.2em 0;text-shadow:0 .08em 0 #000}p{max-width:22em;line-height:1.4}</style></head>
+<body><div><h1 id="t">Signing you in...</h1><p id="m">One moment.</p></div>
+<script>
+/* Finishes Google sign-in for Dead Street and hands the session back to the game. */
+(function(){
+ var URL='https://klclvsbyeimtskatouus.supabase.co',KEY='sb_publishable_eP_Qs69Bz8yvl5Kb1erHHg_4-T_nssz';
+ var h=new URLSearchParams(location.hash.slice(1)),q=new URLSearchParams(location.search),n=q.get('n')||'',a=h.get('access_token'),r=h.get('refresh_token');
+ history.replaceState(null,'',location.pathname);
+ function done(ok,msg){document.getElementById('t').textContent=ok?'You\'re signed in!':'Sign in failed';document.getElementById('m').textContent=msg;if(ok)setTimeout(function(){try{window.close()}catch(e){}},1500)}
+ if(!a||!r||n.length<32){done(false,h.get('error_description')||'Please go back to the game and try again.');return}
+ fetch(URL+'/rest/v1/rpc/put_handoff',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+a,'Content-Type':'application/json'},body:JSON.stringify({p_nonce:n,p_access:a,p_refresh:r})})
+ .then(function(x){if(!x.ok)throw 0;done(true,'Go back to Dead Street. Your progress is now saved to your account.')})
+ .catch(function(){done(false,'Please go back to the game and try again.')});
+})();
+</script></body></html>
